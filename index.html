@@ -76,7 +76,9 @@
 
     <!-- map -->
     <script>
-      fetch('https://line-push-api-v1.appspot.com/cumulative-rainfall')
+      fetch('https://line-push-api-v1.appspot.com/cumulative-rainfall', {
+        method: 'POST'
+      })
         .then(res => res.json())
         .then(res => {
 
