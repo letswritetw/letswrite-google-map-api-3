@@ -105,8 +105,6 @@
           function initMap() {
             let map;
 
-            let features = res[1];
-
             // 預設顯示的地點
             let center = {
               lat: 23.717118,
@@ -124,41 +122,49 @@
             });
 
             let heatmapData = [];
-            Array.prototype.forEach.call(features, f => {
-              let weight = () => {
-                // 1：60分鐘。 2：10分鐘。 3：3小時。 4：6小時。 5：12小時。 6：24小時。 7：今天。 8：2天內。 9：3天內。
-                let w = Number(f.weatherElement[6].elementValue.value.split('.')[0]);
-                if(w === -998 || w === -999) {
-                  return 0
-                }
-                else {
-                  return w
-                }
-              };
-              let item = {
-                location: new google.maps.LatLng(f.lat, f.lon),
-                weight: weight()
-              };
-              heatmapData.push(item);
-            });
 
-            let heatmap = new google.maps.visualization.HeatmapLayer({
-              data: heatmapData,
-              gradient:  [
-                'rgba(255, 255, 255, 0)',
-                '#B3E5FC',
-                '#81D4FA',
-                '#4FC3F7',
-                '#29B6F6',
-                '#03A9F4',
-                '#039BE5',
-                '#0288D1',
-                '#0277BD',
-                '#01579B'
-              ],
-              radius: 18
-            });
-            heatmap.setMap(map);
+            fetch(`https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/O-A0002-001?Authorization=${res[1]}&format=JSON`)
+              .then(id => id.json())
+              .then(id => {
+
+                let features = id.cwbopendata.location;
+                Array.prototype.forEach.call(features, f => {
+                  let weight = () => {
+                    // 1：60分鐘。 2：10分鐘。 3：3小時。 4：6小時。 5：12小時。 6：24小時。 7：今天。 8：2天內。 9：3天內。
+                    let w = Number(f.weatherElement[5].elementValue.value.split('.')[0]);
+                    if(w === -998 || w === -999) {
+                      return 0
+                    }
+                    else {
+                      return w
+                    }
+                  };
+                  let item = {
+                    location: new google.maps.LatLng(f.lat, f.lon),
+                    weight: weight()
+                  };
+                  heatmapData.push(item);
+                });
+
+                let heatmap = new google.maps.visualization.HeatmapLayer({
+                  data: heatmapData,
+                  gradient:  [
+                    'rgba(255, 255, 255, 0)',
+                    '#B3E5FC',
+                    '#81D4FA',
+                    '#4FC3F7',
+                    '#29B6F6',
+                    '#03A9F4',
+                    '#039BE5',
+                    '#0288D1',
+                    '#0277BD',
+                    '#01579B'
+                  ],
+                  radius: 18
+                });
+                heatmap.setMap(map);
+
+              });
             
             // remove loading
             document.querySelector('.full-screen').classList.remove('loading');
