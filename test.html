@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>12小時累積雨量分佈 - Google Map API</title>
+    <link rel="canonical" href="https://auguston.github.io/medium-google-map-api-3/">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#000000">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+      .full-screen, #map {
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .loading {
+        position: relative;
+      }
+    </style>
+
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-74398300-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-74398300-1');
+    </script>
+
+  </head>
+  <body>
+
+    <div class="full-screen">
+      <div id="map"></div>
+    </div>
+
+    <!-- map -->
+    <script>
+      let map;
+      function initMap() {
+    
+        fetch('https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/O-A0002-001?Authorization=CWB-3CA119EF-5450-4A5B-8D85-BF051C38F2AF&format=JSON')
+          .then(res => res.json())
+          .then(res => {
+            console.log(res);
+
+            let features = res.cwbopendata.location;
+    
+            // 預設顯示的中心點
+            let center = {
+              lat: 23.717118,
+              lng: 120.9967659
+            };
+    
+            let map = new google.maps.Map(document.getElementById('map'), {
+              center: center,
+              zoom: 8,
+              mapTypeId: 'hybrid',
+              zoomControl: false,
+              mapTypeControl: false,
+              streetViewControl: false,
+              fullscreenControl: false
+            });
+            
+            // 放 heat map 的資料陣列
+            let heatmapData = [];
+            
+            // 處理每個資料
+            Array.prototype.forEach.call(features, f => {
+              
+              // 把雨量作為權重
+              let weight = () => {
+                
+                // 1：60分鐘。 2：10分鐘。 3：3小時。 4：6小時。 5：12小時。 6：24小時。 7：今天。 8：2天內。 9：3天內。
+                let w = Number(f.weatherElement[6].elementValue.value.split('.')[0]);
+                
+                // 遇到 -998、-999 時，回傳 0
+                if(w === -998 || w === -999) { return 0 }
+                else { return w }
+
+              };
+
+              let item = {
+                location: new google.maps.LatLng(f.lat, f.lon),
+                weight: weight()
+              };
+              
+              heatmapData.push(item);
+            
+            });
+            
+            // 生成 heat map
+            let heatmap = new google.maps.visualization.HeatmapLayer({
+              data: heatmapData,
+              dissipating: true,
+              // 客製顏色
+              gradient:  [
+                'rgba(255, 255, 255, 0)',
+                '#B3E5FC',
+                '#81D4FA',
+                '#4FC3F7',
+                '#29B6F6',
+                '#03A9F4',
+                '#039BE5',
+                '#0288D1',
+                '#0277BD',
+                '#01579B'
+              ],
+              // 半徑
+              radius: 20
+            });
+
+            // 把 heat map 放上地圖
+            heatmap.setMap(map);
+    
+          });
+      }
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHFcCQv-RFAsOUE2uxQ4iuthHqyVyrJHo&libraries=visualization&callback=initMap" async defer></script>
+
+  </body>
+</html>
