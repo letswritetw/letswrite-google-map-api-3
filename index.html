@@ -177,9 +177,10 @@
             document.querySelector('.full-screen').classList.remove('loading');
           }
 
+          getScript(`https://maps.googleapis.com/maps/api/js?key=${res[0]}&libraries=visualization`, initMap);
+
         });
     </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHFcCQv-RFAsOUE2uxQ4iuthHqyVyrJHo&libraries=visualization&callback=initMap" async defer></script>
 
   </body>
 </html>
