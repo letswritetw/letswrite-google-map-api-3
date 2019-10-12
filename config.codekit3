@@ -7,7 +7,7 @@
 		"uuidString": "E3E6C099-7411-4BAB-B8D9-EB581D876D6F"
 		}
 	],
-"creatorBuild": "29156",
+"creatorBuild": "31491",
 "files": {
 	"/earth.html": {
 		"cB": 0,
@@ -47,6 +47,7 @@
 	},
 "projectSettings": {
 	"abortBuildOnError": 1,
+	"allowInjectionReloads": 1,
 	"alwaysUseExternalServer": 0,
 	"animateCSSInjections": 1,
 	"autoBuildNewItems": 1,
@@ -58,6 +59,7 @@
 	"babelConfigType": 0,
 	"babelCustomPluginsList": "",
 	"babelCustomPresetsList": "",
+	"babelExcludeString": "/\\/node_modules\\//, /\\/core-js\\//, /\\/bower_components\\//",
 	"babelInsertModuleIDs": 0,
 	"babelModuleID": "",
 	"babelNoComments": 0,
@@ -128,12 +130,6 @@
 		"function-sent": {
 			"active": 0
 			},
-		"inline-consecutive-adds": {
-			"active": 0
-			},
-		"inline-environment-variables": {
-			"active": 0
-			},
 		"instanceof": {
 			"active": 0
 			},
@@ -153,36 +149,6 @@
 			"active": 0
 			},
 		"minify-booleans": {
-			"active": 0
-			},
-		"minify-builtins": {
-			"active": 0
-			},
-		"minify-constant-folding": {
-			"active": 0
-			},
-		"minify-dead-code-elimination": {
-			"active": 0
-			},
-		"minify-flip-comparisons": {
-			"active": 0
-			},
-		"minify-guarded-expressions": {
-			"active": 0
-			},
-		"minify-infinity": {
-			"active": 0
-			},
-		"minify-mangle-names": {
-			"active": 0
-			},
-		"minify-numeric-literals": {
-			"active": 0
-			},
-		"minify-simplify": {
-			"active": 0
-			},
-		"minify-type-constructors": {
 			"active": 0
 			},
 		"modules-amd": {
@@ -233,9 +199,6 @@
 		"pipeline-operator": {
 			"active": 0
 			},
-		"private-methods": {
-			"active": 0
-			},
 		"property-literals": {
 			"active": 0
 			},
@@ -269,16 +232,10 @@
 		"regenerator": {
 			"active": 0
 			},
-		"regexp-constructors": {
-			"active": 0
-			},
 		"remove-console": {
 			"active": 0
 			},
 		"remove-debugger": {
-			"active": 0
-			},
-		"remove-undefined": {
 			"active": 0
 			},
 		"reserved-words": {
@@ -322,11 +279,10 @@
 			}
 		},
 	"babelRetainLines": 0,
+	"babelUseBuiltInsType": 0,
 	"bowerAbbreviatedPath": "bower_components",
-	"bowerAutoCreateInfoFile": 1,
-	"bowerInstallDevDependencies": 0,
-	"bowerSaveDependencies": 1,
-	"bowerSaveDevDependencies": 0,
+	"bowerForceLatestOnConflict": 1,
+	"bowerTargetDependencyListType": 1,
 	"bowerUseExactVersion": 0,
 	"browserRefreshDelay": 0,
 	"browserslistString": ">0.1%, last 5 versions, Firefox ESR, not dead",
@@ -1331,6 +1287,10 @@
 			"active": 0,
 			"optionString": "{'array': true, 'object': true}, {'enforceForRenamedProperties': false}"
 			},
+		"prefer-named-capture-group": {
+			"active": 0,
+			"optionString": ""
+			},
 		"prefer-numeric-literals": {
 			"active": 0,
 			"optionString": ""
@@ -2084,6 +2044,11 @@
 		},
 	"languageDefaultsUserDefined": [
 		],
+	"npmAbbreviatedPath": "",
+	"npmCreatePackageLock": 1,
+	"npmInstallOptionalDependencies": 0,
+	"npmSaveExactVersion": 0,
+	"npmTargetDependencyListType": 1,
 	"overrideExternalServerCSS": 0,
 	"previewPathAddition": "",
 	"skippedFoldersString": "log, _logs, logs, _cache, cache, .idea, /storage/framework/sessions, node_modules",
